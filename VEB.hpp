@@ -7,17 +7,18 @@ using namespace std;
 
 class VEB
 {
+
     int universalSize;
     int max;
     int min;
     vector<VEB*> clusters;
     VEB* summary;
 
-    bool Find(VEB *root, int target);
-    void Insert(VEB *root, int target);
-    void Delete(VEB *root, int target);
+    public: bool Find(VEB *root, int target);
+    public: void Insert(VEB *root, int target);
+    public: void Delete(VEB *root, int target);
 
-    VEB(int size)
+    public: VEB(int size)
     {
         universalSize = size;
         int max = -1;
@@ -70,6 +71,7 @@ void VEB::Insert(VEB *root, int target)
     {
         root->min = target;
         root->max = target;
+        return;
     }
 
     if(root->min > target)
@@ -84,12 +86,15 @@ void VEB::Insert(VEB *root, int target)
         root->max = target;
     }
 
-    int index = floor(target / root->clusters.size());
-    int new_target = target % root->clusters.size();
-    Insert(root->clusters[index], new_target);
-    if(root->clusters.size() != 0 && root->clusters[index]->min == root->clusters[index]->max)
+    if(root->clusters.size() != 0)
     {
-        Insert(root->summary, index);
+        int index = floor(target / root->clusters.size());
+        int new_target = target % root->clusters.size();
+        Insert(root->clusters[index], new_target);
+        if(root->clusters[index]->min == root->clusters[index]->max)
+        {
+            Insert(root->summary, index);
+        }
     }
 }
 
@@ -111,20 +116,27 @@ void VEB::Delete(VEB *root, int target)
         root->min = target;
     }
 
-    int i = floor(target / root->clusters.size());
-    int lo = target % root->clusters.size();
-    Delete(root->clusters[i], lo);
-    if(root->clusters[i]->min = -1)
-        Delete(root->summary, i);
-    if(target == root->max)
-        if(root->summary->min == -1)
+    if(root->clusters.size() != 0)
+    {
+        int i = floor(target / root->clusters.size());
+        int lo = target % root->clusters.size();
+        Delete(root->clusters[i], lo);
+        if(root->clusters[i]->min = -1)
         {
-            root->max = root->min;
+            Delete(root->summary, i);
         }
-        else
+        if(target == root->max)
         {
-            int hi = root->summary->max * root->clusters.size();
-            int j = root->summary->max;
-            root->max = hi + root->clusters[j]->max;
+            if(root->summary->min == -1)
+            {
+                root->max = root->min;
+            }
+            else
+            {
+                int hi = root->summary->max * root->clusters.size();
+                int j = root->summary->max;
+                root->max = hi + root->clusters[j]->max;
+            }
         }
+    }
 }
