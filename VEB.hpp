@@ -14,7 +14,6 @@ class VEB
     VEB* summary;
 
     bool Find(VEB *root, int target);
-    VEB* Search(VEB *root, int target);
     void Insert(VEB *root, int target);
     void Delete(VEB *root, int target);
 
@@ -64,13 +63,6 @@ bool VEB::Find(VEB *root, int target)
     return Find(root->clusters[cluster_index], new_target);
 }
 
-//private function that works like find but returns a VEB instead
-//don't use in the main program
-VEB *VEB::Search(VEB *root, int target)
-{
-
-}
-
 //put the integer into the VEB
 void VEB::Insert(VEB *root, int target)
 {
@@ -111,5 +103,28 @@ void VEB::Delete(VEB *root, int target)
         return;
     }
 
+    if(target == root->min)
+    {
+        int hi = root->summary->min * root->clusters.size();
+        int j = root->summary->min;
+        target = hi + root->clusters[j]->min;
+        root->min = target;
+    }
 
+    int i = floor(target / root->clusters.size());
+    int lo = target % root->clusters.size();
+    Delete(root->clusters[i], lo);
+    if(root->clusters[i]->min = -1)
+        Delete(root->summary, i);
+    if(target == root->max)
+        if(root->summary->min == -1)
+        {
+            root->max = root->min;
+        }
+        else
+        {
+            int hi = root->summary->max * root->clusters.size();
+            int j = root->summary->max;
+            root->max = hi + root->clusters[j]->max;
+        }
 }
