@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <bits/stdc++.h>
+#include "VEB.hpp"
 
 //TODO: Include the hpp file of our VEB Implementation and remove the Van_emde_Boas class
 
