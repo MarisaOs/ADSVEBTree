@@ -24,27 +24,29 @@ class VEB
         int max = -1;
         int min = -1;
 
-        if(size <= 2)
-        {
-            summary = nullptr;
-            clusters = vector<VEB*>(0, nullptr);
-        }
-        else
-        {
-            int num_clusters = ceil(sqrt(size));
-            clusters = vector<VEB *>(num_clusters, nullptr);
-
-            for(int i = 0; i < num_clusters; i++)
+            if(size <= 2)
             {
-                clusters[i] = new VEB(ceil(sqrt(num_clusters)));
+                summary = nullptr;
+                clusters = vector<VEB*>(0, nullptr);
+            }
+            else
+            {
+                int num_clusters = ceil(sqrt(size));
+                clusters = vector<VEB *>(num_clusters, nullptr);
+
+                for(int i = 0; i < num_clusters; i++)
+                {
+                    clusters[i] = new VEB(ceil(sqrt(num_clusters)));
+                }
             }
         }
-    }
 };
 
 //return a True/False on whether or not it found the input integer
 bool VEB::Find(VEB *root, int target)
 {
+    cout << "Target = " << target << endl;
+
     if(root->min > target || target > root->max)
     {
         return false;
