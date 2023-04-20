@@ -7,43 +7,46 @@ using namespace std;
 
 class VEB
 {
-    int universalSize;
-    int max;
-    int min;
-    vector<VEB*> clusters;
-    VEB* summary;
+    public:
+        int universalSize;
+        int max;
+        int min;
+        vector<VEB*> clusters;
+        VEB* summary;
 
-    bool Find(VEB *root, int target);
-    void Insert(VEB *root, int target);
-    void Delete(VEB *root, int target);
+        bool Find(VEB *root, int target);
+        void Insert(VEB *root, int target);
+        void Delete(VEB *root, int target);
 
-    VEB(int size)
-    {
-        universalSize = size;
-        int max = -1;
-        int min = -1;
-
-        if(size <= 2)
+        VEB(int size)
         {
-            summary = nullptr;
-            clusters = vector<VEB*>(0, nullptr);
-        }
-        else
-        {
-            int num_clusters = ceil(sqrt(size));
-            clusters = vector<VEB *>(num_clusters, nullptr);
+            universalSize = size;
+            int max = -1;
+            int min = -1;
 
-            for(int i = 0; i < num_clusters; i++)
+            if(size <= 2)
             {
-                clusters[i] = new VEB(ceil(sqrt(num_clusters)));
+                summary = nullptr;
+                clusters = vector<VEB*>(0, nullptr);
+            }
+            else
+            {
+                int num_clusters = ceil(sqrt(size));
+                clusters = vector<VEB *>(num_clusters, nullptr);
+
+                for(int i = 0; i < num_clusters; i++)
+                {
+                    clusters[i] = new VEB(ceil(sqrt(num_clusters)));
+                }
             }
         }
-    }
 };
 
 //return a True/False on whether or not it found the input integer
 bool VEB::Find(VEB *root, int target)
 {
+    cout << "Target = " << target << endl;
+
     if(root->min > target || target > root->max)
     {
         return false;
