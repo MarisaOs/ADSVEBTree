@@ -11,18 +11,18 @@ int main()
 //Little Array
     int num;
     int counter;
-    int arr[10000];
+    int arr[100];
 
     srand((unsigned)time(NULL));
 
-    while( counter != 10000)
+    while( counter != 100)
     {
-        num = rand();
+        num = rand()%250000;
         for ( int x = 0; x < counter; x++)
         {
             if ( num == arr[x])
             {
-                num = rand();
+                num = rand()%250000;
                 x = 0;
             }
         }
@@ -42,16 +42,16 @@ int main()
 cout << "Little Array done" << endl;
 //Big Array
 
-    int bigArray[250000];
+    int bigArray[30000];
     counter = 0;
-    while( counter != 250000)
+    while( counter != 30000)
     {
-        num = rand();
+        num = rand() % 250000;
         for ( int x = 0; x < counter; x++)
         {
             if ( num == bigArray[x])
             {
-                num = rand();
+                num = rand() % 250000;
                 x = 0;
             }
         }

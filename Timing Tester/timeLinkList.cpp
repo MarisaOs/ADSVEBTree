@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream> 
 #include <list>
+#include <algorithm>
 
 using namespace std;
 int main()
@@ -11,6 +12,19 @@ int main()
     ArrayValueFile = fopen("test.txt", "r");
  
     list<int>arr;
+
+    for( int x = 0; x < 500000; x++)
+    {
+        arr.push_front(x);
+    }
+
+    bool found = (find(arr.begin(), arr.end(), 250001) != arr.end());
+    if ( found == true)
+    {
+        cout << "FOUND" << endl;
+    }
+    
+    /*
     for ( int x = 0 ; x < 250000; x++)
     {
         int num;
@@ -38,5 +52,5 @@ int main()
             }
         }
     }
-
+    */
 }
