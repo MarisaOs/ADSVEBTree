@@ -1,6 +1,5 @@
 //This will be where we code the problem solution
 
-=======
 #include <vector>
 #include <iostream>
 #include <string>
