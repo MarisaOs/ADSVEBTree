@@ -18,7 +18,6 @@ int main()
     int UserKey = 0;
     int NumberOfIDs = 0;
 
-
    //To start out, have 100 unique IDS in the database
     for (int i = 0; i <= 100; i++)
     {

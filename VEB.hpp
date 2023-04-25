@@ -20,26 +20,27 @@ class VEB
 
     public: VEB(int size)
     {
-        universalSize = size;
-        int max = -1;
-        int min = -1;
+        this->universalSize = size;
+        this->max = -1;
+        this->min = -1;
 
             if(size <= 2)
             {
-                summary = nullptr;
-                clusters = vector<VEB*>(0, nullptr);
+                this->summary = nullptr;
+                this->clusters = vector<VEB*>(0, nullptr);
             }
             else
             {
                 int num_clusters = ceil(sqrt(size));
-                clusters = vector<VEB *>(num_clusters, nullptr);
+                this->clusters = *(new vector<VEB *>(num_clusters, nullptr));
+                this->summary = new VEB(num_clusters);
 
                 for(int i = 0; i < num_clusters; i++)
                 {
-                    clusters[i] = new VEB(ceil(sqrt(num_clusters)));
+                    this->clusters[i] = new VEB(num_clusters);
                 }
             }
-        }
+    }
 };
 
 //return a True/False on whether or not it found the input integer
@@ -75,19 +76,16 @@ void VEB::Insert(VEB *root, int target)
         root->max = target;
         return;
     }
-
     if(root->min > target)
     {
         int temp = target;
         target = root->min;
         root->min = temp;
     }
-
     if(root->max < target)
     {
         root->max = target;
     }
-
     if(root->clusters.size() != 0)
     {
         int index = floor(target / root->clusters.size());
