@@ -12,14 +12,14 @@ using namespace std;
 int main()
 {
     int nonsense = 0;
-    VEB* VebTree = new VEB(256);
+    VEB* VebTree = new VEB(16);
 
     string UserInput = "";
     int UserKey = 0;
     int NumberOfIDs = 0;
 
    //To start out, have 100 unique IDS in the database
-    for (int i = 0; i <= 100; i++)
+    for (int i = 0; i <= 8; i++)
     {
         VebTree->Insert(VebTree, i);
     }

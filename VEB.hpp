@@ -17,6 +17,10 @@ class VEB
     public: bool Find(VEB *root, int target);
     public: void Insert(VEB *root, int target);
     public: void Delete(VEB *root, int target);
+    public: int Min()
+    {
+        return min;
+    }
 
     public: VEB(int size)
     {
@@ -46,8 +50,6 @@ class VEB
 //return a True/False on whether or not it found the input integer
 bool VEB::Find(VEB *root, int target)
 {
-    cout << "Target = " << target << endl;
-
     if(root->min > target || target > root->max)
     {
         return false;
@@ -56,12 +58,16 @@ bool VEB::Find(VEB *root, int target)
     {
         return root->min == target || root->max == target;
     }
+    if(root->min == target)
+    {
+        return true;
+    }
 
     //find index of cluster that would hold the target
     int cluster_index = target / root->clusters.size();
 
     //calculate target value for next cluster
-    int new_target = target - root->clusters.size();
+    int new_target = target - cluster_index * root->clusters.size();
 
     //recursively call Find and return truth value
     return Find(root->clusters[cluster_index], new_target);
@@ -101,42 +107,50 @@ void VEB::Insert(VEB *root, int target)
 //delete the integer from the VEB
 void VEB::Delete(VEB *root, int target)
 {
-    if(root->min == root->max)
+    if(root->clusters.size() == 0)
     {
-        root->min = -1;
-        root->max = -1;
+        if(root->min == root->max && root->min == target)
+        {
+            root->min = -1;
+            root->max = -1;
+            return;
+        }
+        if(root->min == target)
+        {
+            root->min = root->max;
+            return;
+        }
+        root->max = root->min;
         return;
     }
 
-    if(target == root->min)
+    if(root->min == target)
     {
-        int hi = root->summary->min * root->clusters.size();
-        int j = root->summary->min;
-        target = hi + root->clusters[j]->min;
-        root->min = target;
+        int index = root->summary->min;
+        min = root->clusters[index]->min + index * root->clusters.size();
+        Delete(root->clusters[index], target);
+        return;
     }
 
-    if(root->clusters.size() != 0)
+    int index = target / root->clusters.size();
+    int new_target = target % root->clusters.size();
+    Delete(root->clusters[index], new_target);
+
+    if(root->clusters[index]->min == -1)
     {
-        int i = floor(target / root->clusters.size());
-        int lo = target % root->clusters.size();
-        Delete(root->clusters[i], lo);
-        if(root->clusters[i]->min = -1)
+        Delete(root->summary, index);
+    }
+    
+    if(root->max == target)
+    {
+        if(root->summary->min == -1)
         {
-            Delete(root->summary, i);
+            root->max == root->min;
         }
-        if(target == root->max)
+        else
         {
-            if(root->summary->min == -1)
-            {
-                root->max = root->min;
-            }
-            else
-            {
-                int hi = root->summary->max * root->clusters.size();
-                int j = root->summary->max;
-                root->max = hi + root->clusters[j]->max;
-            }
+            index = root->summary->max;
+            root->max = root->clusters[index]->max + root->clusters.size() * index;
         }
     }
 }
