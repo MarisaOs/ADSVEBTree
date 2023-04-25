@@ -1,4 +1,5 @@
 //This will be where we code the problem solution
+//trying something
 
 #include <vector>
 #include <iostream>
@@ -6,12 +7,11 @@
 #include <bits/stdc++.h>
 #include "VEB.hpp"
 
-//TODO: Include the hpp file of our VEB Implementation and remove the Van_emde_Boas class
-
 using namespace std;
 
 int main()
 {
+    int nonsense = 0;
     VEB* VebTree = new VEB(256);
 
     string UserInput = "";
@@ -110,4 +110,3 @@ int main()
     cout << endl << "Exiting database" << endl;
 
 }
->>>>>>> 1a721a9deec772c8958e0a7335e0b903901ee918
